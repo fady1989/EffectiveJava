@@ -5,14 +5,15 @@ import matrixLib.IMatrix;
 
 public class Main {
 
-	private static final Sum math = new Sum();
-	
 	public static void main(String[] args) {
 		
 		
 	}
 	
 	public static void useSumClass() {
+
+		Sum math = new Sum();
+
 		Timer t = new Timer ();
 		t.method = new IMethod() {
 			@Override
