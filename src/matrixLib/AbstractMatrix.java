@@ -57,11 +57,11 @@ public abstract class AbstractMatrix <T> {
 		return false;
 	}
 	
-	public abstract void setElementAt(int iRow, int iCol, T val) throws Exception;
+	public abstract void setElementAt(int iRow, int iCol, T val);
 	
 	public abstract T sumElements();
 	
-	public abstract T getElementAt(int iRow, int iCol) throws Exception;
+	public abstract T getElementAt(int iRow, int iCol);
 	
 	@Override
 	public abstract boolean equals(Object obj);

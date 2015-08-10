@@ -1,7 +1,5 @@
 package matrixLib;
 
-import java.io.IOException;
-
 public final class DoubleMatrix extends AbstractMatrix<Double> {
 
 	private double[][] elements;
