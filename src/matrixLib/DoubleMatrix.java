@@ -3,7 +3,6 @@ package matrixLib;
 public final class DoubleMatrix extends AbstractMatrix<Double> {
 
 	private double[][] elements;
-	private final String elemType = "Double";
 	
 	public DoubleMatrix(int rows, int cols) {
 		super(rows, cols);
