@@ -16,7 +16,7 @@ public class DoubleMatrixTest {
 		assertEquals(10, mat.getCols());
 	}
 
-	private void setMatrixElementsToValue(DoubleMatrix mat, double val) throws Exception {
+	private void setMatrixElementsToValue(DoubleMatrix mat, double val) {
 		for (int iRow = 0;iRow < mat.getRows(); iRow++) {
 			for (int iCol = 0;iCol < mat.getCols(); iCol++) {
 				mat.setElementAt(iRow, iCol, val);
@@ -59,7 +59,7 @@ public class DoubleMatrixTest {
 		assertEquals("Double 2D Matrix of size [rows=10, cols=10]", mat.toString());
 	}
 	
-	public void initMatricesThreeByFiveWithValueTen(DoubleMatrix[] matrices) throws Exception {
+	public void initMatricesThreeByFiveWithValueTen(DoubleMatrix[] matrices) {
 		for (int i = 0;i < matrices.length;i++) {
 			matrices[i] = new DoubleMatrix(3, 5);
 			setMatrixElementsToValue(matrices[i], 10.0);
@@ -67,7 +67,7 @@ public class DoubleMatrixTest {
 	}
 		
 	@Test
-	public void testEquals() throws Exception {
+	public void testEquals() {
 		DoubleMatrix[] matrices = new DoubleMatrix[3];
 		
 		initMatricesThreeByFiveWithValueTen(matrices);
@@ -96,7 +96,7 @@ public class DoubleMatrixTest {
 	}
 	
 	@Test
-	public void testHashCode() throws Exception {
+	public void testHashCode() {
 		DoubleMatrix[] matrices = new DoubleMatrix[2];
 		
 		initMatricesThreeByFiveWithValueTen(matrices);

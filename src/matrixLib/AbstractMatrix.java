@@ -12,12 +12,12 @@ package matrixLib;
  * set and get elements to support primitive type for favoring performance
  * 
  */
-public abstract class IMatrix <T> {
+public abstract class AbstractMatrix <T> {
 
 	private final int rows;
 	private final int cols;
 	
-	public IMatrix(int rows, int cols) {
+	public AbstractMatrix(int rows, int cols) {
 		
 		if (rows <= 0 || cols <= 0) {
 			throw new IllegalArgumentException("rows and cols must be positive vlaues");
@@ -47,7 +47,7 @@ public abstract class IMatrix <T> {
 		return String.format("2D Matrix of size [rows=%d, cols=%d]", rows, cols);
 	}
 
-	boolean validateRowAndCol(int iRow, int iCol) {
+	protected boolean validateRowAndCol(int iRow, int iCol) {
 		if (iRow >= 0 && iRow < rows) {
 			if (iCol >= 0 && iCol < cols) {
 				return true;

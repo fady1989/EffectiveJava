@@ -1,6 +1,8 @@
 package matrixLib;
 
-public final class DoubleMatrix extends IMatrix<Double> {
+import java.io.IOException;
+
+public final class DoubleMatrix extends AbstractMatrix<Double> {
 
 	private double[][] elements;
 	private final String elemType = "Double";
@@ -11,8 +13,8 @@ public final class DoubleMatrix extends IMatrix<Double> {
 		elements = new double[rows][cols];
 	}
 
-	private void validateRowAndColOrThrowException(int iRow, int iCol) throws Exception {
-		if (!validateRowAndCol(iRow, iCol)) {
+	private void validateRowAndColOrThrowException(int row, int col) {
+		if (!validateRowAndCol(row, col)) {
 			throw new IllegalArgumentException("row or column is out of bound");
 		}
 	}
@@ -22,10 +24,11 @@ public final class DoubleMatrix extends IMatrix<Double> {
 		return String.format("%s %s", elemType, super.toString());
 	}
 
-	public void setElementAt(int iRow, int iCol, Double val) throws Exception {
-		validateRowAndColOrThrowException(iRow, iCol);
-		val.doubleValue();
-		elements[iRow][iCol] = val;
+	@Override
+	public void setElementAt(int row, int col, Double val) {
+		validateRowAndColOrThrowException(row, col);
+		
+		elements[row][col] = val;
 	}
 
 	public Double sumElements() {
@@ -40,12 +43,12 @@ public final class DoubleMatrix extends IMatrix<Double> {
 		return sum;
 	}
 
-	public Double getElementAt(int iRow, int iCol) throws Exception {
-		validateRowAndColOrThrowException(iRow, iCol);
+	@Override
+	public Double getElementAt(int row, int col) {
+		validateRowAndColOrThrowException(row, col);
 		
-		return elements[iRow][iCol];
+		return elements[row][col];
 	}
-
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -64,14 +67,10 @@ public final class DoubleMatrix extends IMatrix<Double> {
 			return false;
 		}
 		
-		for (int iRow = 0;iRow < getRows(); iRow++) {
-			for (int iCol = 0;iCol < getCols(); iCol++) {
-				try {
-					if (elements[iRow][iCol] != mat.getElementAt(iRow, iCol).doubleValue()) {
-						return false;
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
+		for (int iRow = 0; iRow < getRows(); iRow++) {
+			for (int iCol = 0; iCol < getCols(); iCol++) {
+				if (elements[iRow][iCol] != mat.getElementAt(iRow, iCol).doubleValue()) {
+					return false;
 				}
 			}
 		}
