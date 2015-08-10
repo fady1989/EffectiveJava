@@ -1,12 +1,18 @@
 package effectiveJava;
 
+import java.math.BigInteger;
+
 import effectiveJava.Timer.IMethod;
-import matrixLib.IMatrix;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
+		BigInteger bigInteger1 = BigInteger.valueOf(100);
+		BigInteger bigInteger2 = bigInteger1.negate();
+		
+		System.out.println(bigInteger1.hashCode());
+		System.out.println(bigInteger2.hashCode());
 		
 	}
 	
