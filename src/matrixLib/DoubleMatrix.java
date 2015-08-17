@@ -18,7 +18,7 @@ public final class DoubleMatrix extends AbstractMatrix<Double> {
 	
 	@Override
 	public String toString() {
-		return String.format("%s %s", elemType, super.toString());
+		return String.format("%s %s", "Double", super.toString());
 	}
 
 	@Override
