@@ -14,8 +14,8 @@ package matrixLib;
  */
 public abstract class AbstractMatrix <T> {
 
-	private final int rows;
-	private final int cols;
+	protected final int rows;
+	protected final int cols;
 	
 	public AbstractMatrix(int rows, int cols) {
 		
@@ -62,6 +62,10 @@ public abstract class AbstractMatrix <T> {
 	public abstract T sumElements();
 	
 	public abstract T getElementAt(int iRow, int iCol);
+	
+	public abstract void multiplyByConstant(T val);
+	
+	public abstract AbstractMatrix<T> multiplyByMatrix(AbstractMatrix<T> matrix);
 	
 	@Override
 	public abstract boolean equals(Object obj);

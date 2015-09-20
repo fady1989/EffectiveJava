@@ -1,5 +1,9 @@
 package matrixLib;
 
+import javax.validation.constraints.NotNull;
+
+import matrixLibExceptions.DimensionsMismatchException;
+
 public final class DoubleMatrix extends AbstractMatrix<Double> {
 
 	private double[][] elements;
@@ -31,8 +35,8 @@ public final class DoubleMatrix extends AbstractMatrix<Double> {
 	public Double sumElements() {
 		double sum = 0.0;
 		
-		for (int iRow = 0;iRow < getRows(); iRow++) {
-			for (int iCol = 0;iCol < getCols(); iCol++) {
+		for (int iRow = 0;iRow < rows; iRow++) {
+			for (int iCol = 0;iCol < cols; iCol++) {
 				sum += elements[iRow][iCol];
 			}
 		}
@@ -59,13 +63,13 @@ public final class DoubleMatrix extends AbstractMatrix<Double> {
 			return true;
 		}
 		
-		if (this.getRows() != mat.getRows() || 
-				this.getCols() != mat.getCols()) {
+		if (this.getRows() != mat.rows || 
+				this.getCols() != mat.cols) {
 			return false;
 		}
 		
-		for (int iRow = 0; iRow < getRows(); iRow++) {
-			for (int iCol = 0; iCol < getCols(); iCol++) {
+		for (int iRow = 0; iRow < rows; iRow++) {
+			for (int iCol = 0; iCol < cols; iCol++) {
 				if (elements[iRow][iCol] != mat.getElementAt(iRow, iCol).doubleValue()) {
 					return false;
 				}
@@ -75,6 +79,37 @@ public final class DoubleMatrix extends AbstractMatrix<Double> {
 		return true;
 	}
 	
+	@Override
+	public void multiplyByConstant(@NotNull Double val) {
+		for (int iRow = 0;iRow < rows; iRow++) {
+			for (int iCol = 0;iCol < cols; iCol++) {
+				elements[iRow][iCol] *= val;
+			}
+		}
+	}
+
+	@Override
+	public DoubleMatrix multiplyByMatrix(@NotNull AbstractMatrix<Double> matrix) {
+		
+		if (this.cols != matrix.rows) {
+			throw new DimensionsMismatchException("Rows and Columns are not matching in the matrices");
+		}
+		
+		DoubleMatrix result = new DoubleMatrix(this.rows, matrix.cols);
+		
+		for (int iRow = 0;iRow < this.rows;iRow++) {
+			for (int iCol = 0;iCol < matrix.cols;iCol++) {
+				double rowByColResult = 0.0;
+				for (int elem = 0;elem < this.cols;elem++) {
+					rowByColResult += (elements[iRow][elem] * matrix.getElementAt(elem, iCol));
+				}
+				
+				result.setElementAt(iRow, iCol, rowByColResult);
+			}
+		}
+		
+		return result;
+	}
 
 	@Override
 	public int hashCode() {
@@ -82,14 +117,13 @@ public final class DoubleMatrix extends AbstractMatrix<Double> {
 		
 		double prime = 32452867;
 		
-		for (int iRow = 0; iRow < getRows(); iRow++) {
-			for (int iCol = 0; iCol < getCols(); iCol++) {
+		for (int iRow = 0; iRow < rows; iRow++) {
+			for (int iCol = 0; iCol < cols; iCol++) {
 
 				hash = (hash) ^ (int) ((Math.pow(prime, iRow) + Math.pow(prime, iCol)) * elements[iRow][iCol]);
 			}
 		}
 
 		return hash;
-	}
-	
+	}	
 }

@@ -1,8 +1,15 @@
 package matrixLib;
 
+import static matrixLib.MatrixTestUtils.initMatricesThreeByFiveWithValueTen;
+import static matrixLib.MatrixTestUtils.multiplyTwoMatricesAndAssert;
+import static matrixLib.MatrixTestUtils.setMatrixElementsToValue;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import org.junit.Test;
+
+import matrixLibExceptions.DimensionsMismatchException;
 
 public class DoubleMatrixTest {
 
@@ -16,14 +23,6 @@ public class DoubleMatrixTest {
 		assertThat(mat.getCols(), equalTo(10));
 	}
 
-	private void setMatrixElementsToValue(DoubleMatrix mat, double val) {
-		for (int iRow = 0;iRow < mat.getRows(); iRow++) {
-			for (int iCol = 0;iCol < mat.getCols(); iCol++) {
-				mat.setElementAt(iRow, iCol, val);
-			}
-		}
-	}
-	
 	@Test
 	public void testValidateRowAndCol() {
 		mat = new DoubleMatrix(2, 3);
@@ -59,11 +58,58 @@ public class DoubleMatrixTest {
 		assertThat(mat.toString(), equalTo("Double 2D Matrix of size [rows=10, cols=10]"));
 	}
 	
-	public void initMatricesThreeByFiveWithValueTen(DoubleMatrix[] matrices) {
-		for (int i = 0;i < matrices.length;i++) {
-			matrices[i] = new DoubleMatrix(3, 5);
-			setMatrixElementsToValue(matrices[i], 10.0);
-		}
+	@Test(expected=NullPointerException.class)
+	public void testMultMatrixByConstant_Null() {
+		mat = new DoubleMatrix(5, 5);
+		
+		mat.multiplyByConstant(null);
+	}
+	
+	@Test
+	public void testMultMatrixByConstant_Small() {
+		mat = new DoubleMatrix(5, 5);
+		
+		setMatrixElementsToValue(mat, 5);
+		mat.multiplyByConstant(2.0);
+		
+		assertThat(mat.sumElements(), equalTo(mat.getCols() * mat.getRows() * 5 * 2.0));
+	}
+	
+	@Test
+	public void testMultMatrixByConstant_MaxValue() {
+		mat = new DoubleMatrix(5, 5);
+		
+		setMatrixElementsToValue(mat, 5);
+		mat.multiplyByConstant(Double.MAX_VALUE);
+		
+		assertThat(mat.sumElements(), equalTo(Double.POSITIVE_INFINITY));
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testMultMatrixByMatrix_Null() {
+		mat = new DoubleMatrix(5, 5);
+		
+		mat.multiplyByMatrix(null);
+	}
+	
+	@Test(expected=DimensionsMismatchException.class)
+	public void testMultMatrixByMatrix_WrongDimensions() {
+		mat = new DoubleMatrix(5, 2);
+		DoubleMatrix mat2 = new DoubleMatrix(5, 10);
+
+		mat.multiplyByMatrix(mat2);
+		
+	}
+	
+	@Test
+	public void testMultMatrixByMatrix_SmallMatrices() {
+		multiplyTwoMatricesAndAssert(2,  5,  2,  5,  2,  5);
+	}	
+
+	@Ignore("Takes long time.") //TODO: Optimize
+	@Test
+	public void testMultMatrixByMatrix_LargeMatrices() {
+		multiplyTwoMatricesAndAssert(1000, 5000, 2, 5000, 1000, 5);
 	}
 	
 	@Test
