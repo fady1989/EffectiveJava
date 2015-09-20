@@ -1,5 +1,6 @@
 package matrixLib;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -11,8 +12,8 @@ public class DoubleMatrixTest {
 	public void testIntMatrixInitialize() {
 		mat = new DoubleMatrix(10, 10);
 		
-		assertEquals(10, mat.getRows());
-		assertEquals(10, mat.getCols());
+		assertThat(mat.getRows(), equalTo(10));
+		assertThat(mat.getCols(), equalTo(10));
 	}
 
 	private void setMatrixElementsToValue(DoubleMatrix mat, double val) {
@@ -27,19 +28,19 @@ public class DoubleMatrixTest {
 	public void testValidateRowAndCol() {
 		mat = new DoubleMatrix(2, 3);
 		
-		assertEquals(true, mat.validateRowAndCol(0, 0));
-		assertEquals(true, mat.validateRowAndCol(0, 1));
-		assertEquals(true, mat.validateRowAndCol(1, 0));
-		assertEquals(true, mat.validateRowAndCol(1, 1));
-		
-		assertEquals(false, mat.validateRowAndCol(0, mat.getCols()));
-		assertEquals(false, mat.validateRowAndCol(mat.getRows(), 0));
-		assertEquals(false, mat.validateRowAndCol(mat.getRows(), mat.getCols()));
-		
-		assertEquals(false, mat.validateRowAndCol(-1, 0));
-		assertEquals(false, mat.validateRowAndCol(0, -1));
-		assertEquals(false, mat.validateRowAndCol(-1, -1));
-		assertEquals(false, mat.validateRowAndCol(Integer.MAX_VALUE, Integer.MAX_VALUE));
+		assertThat(mat.validateRowAndCol(0, 0), equalTo(true));
+		assertThat(mat.validateRowAndCol(0, 1), equalTo(true));
+		assertThat(mat.validateRowAndCol(1, 0), equalTo(true));
+		assertThat(mat.validateRowAndCol(1, 1), equalTo(true));
+
+		assertThat(mat.validateRowAndCol(0, mat.getCols()), equalTo(false));
+		assertThat(mat.validateRowAndCol(mat.getRows(), 0), equalTo(false));
+		assertThat(mat.validateRowAndCol(mat.getRows(), mat.getCols()), equalTo(false));
+
+		assertThat(mat.validateRowAndCol(-1, 0), equalTo(false));
+		assertThat(mat.validateRowAndCol(0, -1), equalTo(false));
+		assertThat(mat.validateRowAndCol(-1, -1), equalTo(false));
+		assertThat(mat.validateRowAndCol(Integer.MAX_VALUE, Integer.MAX_VALUE), equalTo(false));
 	}
 	
 	@Test
@@ -48,14 +49,14 @@ public class DoubleMatrixTest {
 		
 		setMatrixElementsToValue(mat, 2.0);
 		
-		assertEquals(30.0, mat.sumElements(), 0.0);	
+		assertThat(mat.sumElements(), equalTo(30.0));
 	}
 	
 	@Test
 	public void testToStringValid() {
 		mat = new DoubleMatrix(10, 10);
 		
-		assertEquals("Double 2D Matrix of size [rows=10, cols=10]", mat.toString());
+		assertThat(mat.toString(), equalTo("Double 2D Matrix of size [rows=10, cols=10]"));
 	}
 	
 	public void initMatricesThreeByFiveWithValueTen(DoubleMatrix[] matrices) {
@@ -72,25 +73,24 @@ public class DoubleMatrixTest {
 		initMatricesThreeByFiveWithValueTen(matrices);
 		
 		// Reflexive assertion
-		assertEquals(true, matrices[0].equals(matrices[1]));
+		assertThat(matrices[0].equals(matrices[0]), equalTo(true));
 		
 		// Symmetric assertion
-		assertEquals(true, matrices[0].equals(matrices[1]));
-		assertEquals(true, matrices[1].equals(matrices[0]));
+		assertThat(matrices[0].equals(matrices[1]), equalTo(matrices[1].equals(matrices[0])));
 		
 		// Transitive assertion
-		assertEquals(true, matrices[1].equals(matrices[2]));
-		assertEquals(true, matrices[0].equals(matrices[2]));
+		assertThat(matrices[1].equals(matrices[2]), equalTo(true));
+		assertThat(matrices[0].equals(matrices[2]), equalTo(true));
 		
 		// non-nullity assertion
-		assertEquals(false, matrices[0].equals(null));
+		assertThat(matrices[0].equals(null), equalTo(false));
 		
 		matrices[1].setElementAt(0,  0, Double.valueOf(100));
-		assertEquals(false, matrices[0].equals(matrices[1]));
-		assertEquals(false, matrices[1].equals(matrices[0]));
+		assertThat(matrices[0].equals(matrices[1]), equalTo(false));
+		assertThat(matrices[1].equals(matrices[0]), equalTo(false));
 		
 		mat = new DoubleMatrix(10, 10);
-		assertEquals(false, mat.equals(matrices[0]));
+		assertThat(mat.equals(matrices[0]), equalTo(false));
 		
 	}
 	
@@ -101,9 +101,9 @@ public class DoubleMatrixTest {
 		initMatricesThreeByFiveWithValueTen(matrices);
 		
 		// Consistency assertion
-		assertEquals(matrices[0].hashCode(), matrices[0].hashCode());
+		assertThat(matrices[0].hashCode(), equalTo(matrices[0].hashCode()));
 		// Same value matrix assertion
-		assertEquals(matrices[0].hashCode(), matrices[1].hashCode());
+		assertThat(matrices[0].hashCode(), equalTo(matrices[1].hashCode()));
 	}
 
 }
